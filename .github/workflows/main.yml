@@ -1,0 +1,25 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  connect-to-vm:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Connect to GCP VM
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.GCP_VM_ML_HOST }}
+        username: ${{ secrets.GCP_VM_ML_USERNAME }}
+        key: ${{ secrets.GCP_VM_ML_PRIVATE_KEY }}
+        key_path: ""
+        script: |
+          cd /home/masterset/
+          touch hello1.txt
+          echo "Successfully created file: hello1.txt"
